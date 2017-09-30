@@ -2,12 +2,12 @@ package com.lastminute.core.entity;
 
 public class FlightRoute {
 
-    private final String code;
     private final String origin;
     private final String destination;
+    private final String code;
 
 
-    public FlightRoute(String code, String origin, String destination) {
+    public FlightRoute(String origin, String destination, String code) {
         this.code = code;
         this.origin = origin;
         this.destination = destination;
