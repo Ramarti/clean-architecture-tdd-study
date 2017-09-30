@@ -1,4 +1,4 @@
-package com.lastminute.dataproviders;
+package com.lastminute.dataproviders.flightroutes;
 
 import com.lastminute.core.entity.FlightRoute;
 import org.junit.Before;
@@ -20,9 +20,15 @@ public class CsvFlightRoutesProviderTest {
 
     @Test
     public void getRoutes() throws Exception {
-        List<FlightRoute> routes = provider.getRoutes();
+        List<FlightRoute> routes = provider.getRoutes("CPH","FRA");
         assertFalse(routes.isEmpty());
 
+    }
+
+    @Test
+    public void getEmptyRoutes() throws Exception {
+        List<FlightRoute> routes = provider.getRoutes("LOL","WHAT");
+        assertTrue(routes.isEmpty());
     }
 
     @Test
