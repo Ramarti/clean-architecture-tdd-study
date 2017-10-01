@@ -10,15 +10,20 @@ import java.util.List;
 public class SearchFlightsUsecase implements  SearchFlightsInputBoundary {
 
 
+    private Context context;
+
+    public SearchFlightsUsecase(Context context) {
+        this.context = context;
+    }
 
     @Override
     public void searchFlights(SearchFlightRequest request, SearchFlightsOutputBoundary presenter) {
-        List<FlightRoute> routes = Context.flightRoutesProvider.getRoutes(request.getOrigin(),request.getDestination());
+        List<FlightRoute> routes = context.flightRoutesProvider.getRoutes(request.getOrigin(),request.getDestination());
         List<FlightResult> results = new ArrayList< FlightResult>();
         for ( FlightRoute route : routes) {
-            Double price = Context.flightPriceProvider.getPriceForFlight(route.getCode());
+            Double price = context.flightPriceProvider.getPriceForFlight(route.getCode());
             if (price != null) {
-                results.add(new FlightResult(route.getCode(), price, Context.defaultCurrency));
+                results.add(new FlightResult(route.getCode(), price, context.defaultCurrency));
             }
         }
         presenter.present(new SearchFlightResponse(results));

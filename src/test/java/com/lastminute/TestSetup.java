@@ -7,15 +7,15 @@ import com.lastminute.doubles.FlightRouteProviderMock;
 public class TestSetup {
 
     public static void setupContext() {
-        Context.flightPriceProvider = new FlightPriceProviderMock();
-        Context.flightRoutesProvider = new FlightRouteProviderMock();
+        Context.getInstance().flightPriceProvider = new FlightPriceProviderMock();
+        Context.getInstance().flightRoutesProvider = new FlightRouteProviderMock();
     }
 
     public static FlightPriceProviderMock getMockPriceProvider() {
-        return (FlightPriceProviderMock) Context.flightPriceProvider;
+        return (FlightPriceProviderMock) Context.getInstance().flightPriceProvider;
     }
 
     public static FlightRouteProviderMock getMockRoutesProvider() {
-        return (FlightRouteProviderMock) Context.flightRoutesProvider;
+        return (FlightRouteProviderMock) Context.getInstance().flightRoutesProvider;
     }
 }

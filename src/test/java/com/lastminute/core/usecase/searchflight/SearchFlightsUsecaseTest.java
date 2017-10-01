@@ -24,8 +24,9 @@ public class SearchFlightsUsecaseTest {
         TestSetup.setupContext();
         mockRoutesProvider = TestSetup.getMockRoutesProvider();
         mockPriceProvider = TestSetup.getMockPriceProvider();
-        flightSearcher = new SearchFlightsUsecase();
+        flightSearcher = new SearchFlightsUsecase(Context.getInstance());
     }
+
 
     @Test
     public void searchFlightsWiring() {
