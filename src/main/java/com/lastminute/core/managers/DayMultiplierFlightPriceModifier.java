@@ -1,6 +1,6 @@
-package com.lastminute.core.entity;
+package com.lastminute.core.managers;
 
-public class DayMultiplierFlightPriceModifier implements FlightPriceModifier {
+public class DayMultiplierFlightPriceModifier implements DayPriceModifier {
     /*
         | days prior to the departure date | % of the base price |
         |----------------------------------|---------------------|
@@ -9,17 +9,20 @@ public class DayMultiplierFlightPriceModifier implements FlightPriceModifier {
         | 15 - 3                           | 120%                |
         | less that 3 (i.e. <= 2)          | 150%                |
          */
+
     @Override
-    public Double modify(Double rawprice, PriceParameters parameter) {
-        int days = parameter.getDaysPriorToDeparture();
+    public double modifyPrice(double rawPrice, int days) {
+        if (days < 0) {
+            throw new IllegalArgumentException("days should be positive");
+        }
         if (days <= 2) {
-            return  rawprice * 1.5;
+            return  rawPrice * 1.5;
         } else if (days >= 3 && days <= 15) {
-            return  rawprice * 1.2;
+            return  rawPrice * 1.2;
         } else if (days >= 16 && days <= 30) {
-            return rawprice;
+            return rawPrice;
         } else {
-            return  rawprice * 0.8;
+            return  rawPrice * 0.8;
         }
     }
 }

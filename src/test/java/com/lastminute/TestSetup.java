@@ -3,6 +3,7 @@ package com.lastminute;
 import com.lastminute.dataproviders.flightprices.FlightPriceProvider;
 import com.lastminute.doubles.FlightPriceProviderMock;
 import com.lastminute.doubles.FlightRouteProviderMock;
+import com.lastminute.doubles.MockDayPriceModifier;
 
 public class TestSetup {
 
@@ -18,4 +19,5 @@ public class TestSetup {
     public static FlightRouteProviderMock getMockRoutesProvider() {
         return (FlightRouteProviderMock) Context.getInstance().flightRoutesProvider;
     }
+
 }

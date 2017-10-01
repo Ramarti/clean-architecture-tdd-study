@@ -11,20 +11,13 @@ public class SearchFlightRequest {
     private int passengerNumber;
 
     //TODO builder
-    public SearchFlightRequest(String origin, String destination, int daysUntilDeparture,int passengerNumber) throws SearchFlightRequestException {
+    public SearchFlightRequest(String origin, String destination, int daysUntilDeparture,int passengerNumber) {
         this.origin = origin;
         this.destination = destination;
         this.daysUntilDeparture = daysUntilDeparture;
         this.passengerNumber = passengerNumber;
     }
 
-    private static void checkAirportFormatting(String fieldValue) throws SearchFlightRequestException {
-        boolean isCorrect = Pattern.compile("[A-Z]+").matcher(fieldValue).matches();
-        if (!isCorrect) {
-            throw new SearchFlightRequestException("Wrong input: "+fieldValue);
-        }
-
-    }
 
     public String getOrigin() {
         return origin;

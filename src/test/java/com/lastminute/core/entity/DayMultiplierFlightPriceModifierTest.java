@@ -1,5 +1,6 @@
 package com.lastminute.core.entity;
 
+import com.lastminute.core.managers.DayMultiplierFlightPriceModifier;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,9 +27,9 @@ public class DayMultiplierFlightPriceModifierTest {
     @Test
     public void modifyFor3Days() {
         //Given
-        PriceParameters parameters = new PriceParameters(3);
+        int days = 3;
         //When
-        Double result = modifier.modify(1.0,parameters);
+        Double result = modifier.modifyPrice(1.0,days);
         //Then
         assertEquals(result,Double.valueOf(1.2));
     }
@@ -36,9 +37,9 @@ public class DayMultiplierFlightPriceModifierTest {
     @Test
     public void modifyFor15Days() {
         //Given
-        PriceParameters parameters = new PriceParameters(3);
+        int days = 15;
         //When
-        Double result = modifier.modify(1.0,parameters);
+        Double result = modifier.modifyPrice(1.0,days);
         //Then
         assertEquals(result,Double.valueOf(1.2));
     }
@@ -46,9 +47,9 @@ public class DayMultiplierFlightPriceModifierTest {
     @Test
     public void modifyFor16Days() {
         //Given
-        PriceParameters parameters = new PriceParameters(16);
+        int days = 16;
         //When
-        Double result = modifier.modify(1.0,parameters);
+        Double result = modifier.modifyPrice(1.0,days);
         //Then
         assertEquals(result,Double.valueOf(1.0));
     }
@@ -56,9 +57,9 @@ public class DayMultiplierFlightPriceModifierTest {
     @Test
     public void modifyFor30Days() {
         //Given
-        PriceParameters parameters = new PriceParameters(30);
+        int days = 30;
         //When
-        Double result = modifier.modify(1.0,parameters);
+        Double result = modifier.modifyPrice(1.0,days);
         //Then
         assertEquals(result,Double.valueOf(1.0));
     }
@@ -66,9 +67,9 @@ public class DayMultiplierFlightPriceModifierTest {
     @Test
     public void modifyForLessThan3Days() {
         //Given
-        PriceParameters parameters = new PriceParameters(2);
+        int days = 2;
         //When
-        Double result = modifier.modify(1.0,parameters);
+        Double result = modifier.modifyPrice(1.0,days);
         //Then
         assertEquals(result,Double.valueOf(1.5));
     }
@@ -76,18 +77,18 @@ public class DayMultiplierFlightPriceModifierTest {
     @Test
     public void modifyForLessThan15Days() {
         //Given
-        PriceParameters parameters = new PriceParameters(10);
+        int days = 10;
         //When
-        Double result = modifier.modify(1.0,parameters);
+        Double result = modifier.modifyPrice(1.0,days);
         //Then
         assertEquals(result,Double.valueOf(1.2));
     }
     @Test
     public void modifyForLessthan30Days() {
         //Given
-        PriceParameters parameters = new PriceParameters(25);
+        int days = 25;
         //When
-        Double result = modifier.modify(1.0,parameters);
+        Double result = modifier.modifyPrice(1.0,days);
         //Then
         assertEquals(result,Double.valueOf(1.0));
     }
@@ -95,9 +96,9 @@ public class DayMultiplierFlightPriceModifierTest {
     @Test
     public  void modifyForMoreThan30Days() {
         //Given
-        PriceParameters parameters = new PriceParameters(31);
+        int days = 31;
         //When
-        Double result = modifier.modify(1.0,parameters);
+        Double result = modifier.modifyPrice(1.0,days);
         //Then
         assertEquals(result,Double.valueOf(0.8));
     }
@@ -105,7 +106,9 @@ public class DayMultiplierFlightPriceModifierTest {
     @Test(expected = IllegalArgumentException.class)
     public void modifyForNegativeDays() {
         //Given
-        PriceParameters parameters = new PriceParameters(-2);
+        int days = -1;
+        //When
+        Double result = modifier.modifyPrice(1.0,days);
 
     }
 

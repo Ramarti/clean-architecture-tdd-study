@@ -18,9 +18,5 @@ public class SearchFlightRequestTest {
         assertEquals(request.getPassengerNumber(),3);
     }
 
-    @Test(expected = SearchFlightRequestException.class)
-    public void wrongOrigin() {
-        SearchFlightRequest request = new SearchFlightRequest("12","DEST",2,3);
-
-    }
+    
 }

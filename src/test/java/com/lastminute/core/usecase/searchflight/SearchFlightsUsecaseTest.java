@@ -6,6 +6,7 @@ import com.lastminute.core.entity.FlightRoute;
 import com.lastminute.dataproviders.flightroutes.FlightRoutesProvider;
 import com.lastminute.doubles.FlightPriceProviderMock;
 import com.lastminute.doubles.FlightRouteProviderMock;
+import com.lastminute.doubles.MockDayPriceModifier;
 import com.lastminute.doubles.SearchFlightsOutputBoundarySpy;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,16 +16,18 @@ import static org.junit.Assert.*;
 public class SearchFlightsUsecaseTest {
 
 
-    SearchFlightsUsecase flightSearcher;
-    FlightRouteProviderMock mockRoutesProvider;
-    FlightPriceProviderMock mockPriceProvider;
+    private SearchFlightsUsecase flightSearcher;
+    private FlightRouteProviderMock mockRoutesProvider;
+    private FlightPriceProviderMock mockPriceProvider;
+    private MockDayPriceModifier mockDayPriceModifier;
 
     @Before
     public void setup() {
         TestSetup.setupContext();
         mockRoutesProvider = TestSetup.getMockRoutesProvider();
         mockPriceProvider = TestSetup.getMockPriceProvider();
-        flightSearcher = new SearchFlightsUsecase(Context.getInstance());
+        mockDayPriceModifier = new MockDayPriceModifier();
+        flightSearcher = new SearchFlightsUsecase(Context.getInstance(),mockDayPriceModifier);
     }
 
 
@@ -32,13 +35,15 @@ public class SearchFlightsUsecaseTest {
     public void searchFlightsWiring() {
         //Given
         mockRoutesProvider.routes.add(new FlightRoute("MORDOR","LEGANES","4"));
-        SearchFlightRequest request = new SearchFlightRequest("MORDOR","LEGANES",1,1);
+        mockPriceProvider.priceFound = 3.0;
+        SearchFlightRequest request = new SearchFlightRequest("MORDOR","LEGANES",1,2);
         SearchFlightsOutputBoundarySpy spy = new SearchFlightsOutputBoundarySpy();
         //When
         flightSearcher.searchFlights(request,spy);
         //Then
         assertTrue(mockRoutesProvider.wasGetRoutesCalled());
         assertTrue(mockPriceProvider.wasPriceCalled);
+        assertTrue(mockDayPriceModifier.wasModifierCalled());
         assertTrue(spy.called);
     }
 
