@@ -3,11 +3,7 @@ package com.lastminute.core.usecase.searchflight;
 import com.lastminute.Context;
 import com.lastminute.TestSetup;
 import com.lastminute.core.entity.FlightRoute;
-import com.lastminute.dataproviders.flightroutes.FlightRoutesProvider;
-import com.lastminute.doubles.FlightPriceProviderMock;
-import com.lastminute.doubles.FlightRouteProviderMock;
-import com.lastminute.doubles.MockDayPriceModifier;
-import com.lastminute.doubles.SearchFlightsOutputBoundarySpy;
+import com.lastminute.doubles.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,6 +16,7 @@ public class SearchFlightsUsecaseTest {
     private FlightRouteProviderMock mockRoutesProvider;
     private FlightPriceProviderMock mockPriceProvider;
     private MockDayPriceModifier mockDayPriceModifier;
+    private MockPassengersPriceModifier mockPassengersPriceModifier;
 
     @Before
     public void setup() {
@@ -27,7 +24,8 @@ public class SearchFlightsUsecaseTest {
         mockRoutesProvider = TestSetup.getMockRoutesProvider();
         mockPriceProvider = TestSetup.getMockPriceProvider();
         mockDayPriceModifier = new MockDayPriceModifier();
-        flightSearcher = new SearchFlightsUsecase(Context.getInstance(),mockDayPriceModifier);
+        mockPassengersPriceModifier = new MockPassengersPriceModifier();
+        flightSearcher = new SearchFlightsUsecase(Context.getInstance(),mockDayPriceModifier,mockPassengersPriceModifier);
     }
 
 
@@ -44,6 +42,7 @@ public class SearchFlightsUsecaseTest {
         assertTrue(mockRoutesProvider.wasGetRoutesCalled());
         assertTrue(mockPriceProvider.wasPriceCalled);
         assertTrue(mockDayPriceModifier.wasModifierCalled());
+        assertTrue(mockPassengersPriceModifier.wasModifierCalled());
         assertTrue(spy.called);
     }
 

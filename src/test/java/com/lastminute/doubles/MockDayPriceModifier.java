@@ -1,6 +1,6 @@
 package com.lastminute.doubles;
 
-import com.lastminute.core.managers.DayPriceModifier;
+import com.lastminute.core.usecase.searchflight.DayPriceModifier;
 
 public class MockDayPriceModifier implements DayPriceModifier {
 

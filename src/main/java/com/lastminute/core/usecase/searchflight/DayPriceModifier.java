@@ -1,4 +1,4 @@
-package com.lastminute.core.managers;
+package com.lastminute.core.usecase.searchflight;
 
 public interface DayPriceModifier {
 

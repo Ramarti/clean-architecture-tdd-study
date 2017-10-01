@@ -1,5 +1,7 @@
 package com.lastminute.core.managers;
 
+import com.lastminute.core.usecase.searchflight.DayPriceModifier;
+
 public class DayMultiplierFlightPriceModifier implements DayPriceModifier {
     /*
         | days prior to the departure date | % of the base price |

@@ -1,4 +1,4 @@
-package com.lastminute.core.entity;
+package com.lastminute.core.managers;
 
 import com.lastminute.core.managers.DayMultiplierFlightPriceModifier;
 import org.junit.Before;
