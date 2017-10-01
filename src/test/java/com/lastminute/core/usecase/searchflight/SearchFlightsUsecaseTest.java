@@ -32,7 +32,7 @@ public class SearchFlightsUsecaseTest {
     public void searchFlightsWiring() {
         //Given
         mockRoutesProvider.routes.add(new FlightRoute("MORDOR","LEGANES","4"));
-        SearchFlightRequest request = new SearchFlightRequest("MORDOR","LEGANES",1);
+        SearchFlightRequest request = new SearchFlightRequest("MORDOR","LEGANES",1,1);
         SearchFlightsOutputBoundarySpy spy = new SearchFlightsOutputBoundarySpy();
         //When
         flightSearcher.searchFlights(request,spy);
@@ -45,7 +45,7 @@ public class SearchFlightsUsecaseTest {
     @Test
     public void searchFlightNoFlightsFound() {
         //Given
-        SearchFlightRequest request = new SearchFlightRequest("MORDOR","LEGANES",1);
+        SearchFlightRequest request = new SearchFlightRequest("MORDOR","LEGANES",1,1);
         SearchFlightsOutputBoundarySpy spy = new SearchFlightsOutputBoundarySpy();
         //When
         flightSearcher.searchFlights(request,spy);
@@ -58,7 +58,7 @@ public class SearchFlightsUsecaseTest {
         //Given
         mockRoutesProvider.routes.add(new FlightRoute("MORDOR","LEGANES","U"));
         mockPriceProvider.priceFound = null;
-        SearchFlightRequest request = new SearchFlightRequest("","",1);
+        SearchFlightRequest request = new SearchFlightRequest("","",1,1);
         SearchFlightsOutputBoundarySpy spy = new SearchFlightsOutputBoundarySpy();
         //When
         flightSearcher.searchFlights(request,spy);
@@ -71,7 +71,7 @@ public class SearchFlightsUsecaseTest {
         //Given
         mockRoutesProvider.routes.add(new FlightRoute("MORDOR","LEGANES","U"));
         mockPriceProvider.priceFound = Double.valueOf(2);
-        SearchFlightRequest request = new SearchFlightRequest("MORDOR","LEGANES",1);
+        SearchFlightRequest request = new SearchFlightRequest("MORDOR","LEGANES",1,1);
         SearchFlightsOutputBoundarySpy spy = new SearchFlightsOutputBoundarySpy();
         //When
         flightSearcher.searchFlights(request,spy);
@@ -86,7 +86,7 @@ public class SearchFlightsUsecaseTest {
         mockRoutesProvider.routes.add(new FlightRoute("ORI","DEST","A3"));
         mockPriceProvider.priceFound = Double.valueOf(2);
 
-        SearchFlightRequest request = new SearchFlightRequest("ORI","DEST",1);
+        SearchFlightRequest request = new SearchFlightRequest("ORI","DEST",1,1);
         SearchFlightsOutputBoundarySpy spy = new SearchFlightsOutputBoundarySpy();
 
         //When
