@@ -1,6 +1,8 @@
 package com.lastminute.core.usecase.searchflight;
 
+import com.lastminute.core.entity.DayPriceModificationResult;
+
 public interface DayPriceModifier {
 
-    public double modifyPrice(double rawPrice, int days);
+    public DayPriceModificationResult modifyPrice(double rawPrice, int days);
 }

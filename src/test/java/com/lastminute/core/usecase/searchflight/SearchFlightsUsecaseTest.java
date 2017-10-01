@@ -2,6 +2,7 @@ package com.lastminute.core.usecase.searchflight;
 
 import com.lastminute.Context;
 import com.lastminute.TestSetup;
+import com.lastminute.core.entity.DayPriceModificationResult;
 import com.lastminute.core.entity.FlightRoute;
 import com.lastminute.doubles.*;
 import org.junit.Before;
@@ -24,6 +25,7 @@ public class SearchFlightsUsecaseTest {
         mockRoutesProvider = TestSetup.getMockRoutesProvider();
         mockPriceProvider = TestSetup.getMockPriceProvider();
         mockDayPriceModifier = new MockDayPriceModifier();
+
         mockPassengersPriceModifier = new MockPassengersPriceModifier();
         flightSearcher = new SearchFlightsUsecase(Context.getInstance(),mockDayPriceModifier,mockPassengersPriceModifier);
     }
@@ -34,10 +36,13 @@ public class SearchFlightsUsecaseTest {
         //Given
         mockRoutesProvider.routes.add(new FlightRoute("MORDOR","LEGANES","4"));
         mockPriceProvider.priceFound = 3.0;
+        mockDayPriceModifier.priceToReturn = new DayPriceModificationResult(2,2);
         SearchFlightRequest request = new SearchFlightRequest("MORDOR","LEGANES",1,2);
         SearchFlightsOutputBoundarySpy spy = new SearchFlightsOutputBoundarySpy();
+
         //When
         flightSearcher.searchFlights(request,spy);
+
         //Then
         assertTrue(mockRoutesProvider.wasGetRoutesCalled());
         assertTrue(mockPriceProvider.wasPriceCalled);
@@ -51,8 +56,10 @@ public class SearchFlightsUsecaseTest {
         //Given
         SearchFlightRequest request = new SearchFlightRequest("MORDOR","LEGANES",1,1);
         SearchFlightsOutputBoundarySpy spy = new SearchFlightsOutputBoundarySpy();
+
         //When
         flightSearcher.searchFlights(request,spy);
+
         //Then
         assertTrue(spy.response.getResults().isEmpty());
     }
@@ -64,8 +71,10 @@ public class SearchFlightsUsecaseTest {
         mockPriceProvider.priceFound = null;
         SearchFlightRequest request = new SearchFlightRequest("","",1,1);
         SearchFlightsOutputBoundarySpy spy = new SearchFlightsOutputBoundarySpy();
+
         //When
         flightSearcher.searchFlights(request,spy);
+
         //Then
         assertTrue(spy.response.getResults().isEmpty());
     }
@@ -75,10 +84,13 @@ public class SearchFlightsUsecaseTest {
         //Given
         mockRoutesProvider.routes.add(new FlightRoute("MORDOR","LEGANES","U"));
         mockPriceProvider.priceFound = Double.valueOf(2);
+        mockDayPriceModifier.priceToReturn = new DayPriceModificationResult(2,2);
         SearchFlightRequest request = new SearchFlightRequest("MORDOR","LEGANES",1,1);
         SearchFlightsOutputBoundarySpy spy = new SearchFlightsOutputBoundarySpy();
+
         //When
         flightSearcher.searchFlights(request,spy);
+
         //Then
         assertFalse(spy.response.getResults().isEmpty());
     }
@@ -88,8 +100,8 @@ public class SearchFlightsUsecaseTest {
         //Given
         mockRoutesProvider.routes.add(new FlightRoute("ORI","DEST","A2"));
         mockRoutesProvider.routes.add(new FlightRoute("ORI","DEST","A3"));
+        mockDayPriceModifier.priceToReturn = new DayPriceModificationResult(2,2);
         mockPriceProvider.priceFound = Double.valueOf(2);
-
         SearchFlightRequest request = new SearchFlightRequest("ORI","DEST",1,1);
         SearchFlightsOutputBoundarySpy spy = new SearchFlightsOutputBoundarySpy();
 
@@ -99,6 +111,8 @@ public class SearchFlightsUsecaseTest {
         //Then
         assertEquals(2,spy.response.getResults().size());
     }
+
+
 
 
 

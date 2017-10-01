@@ -1,5 +1,6 @@
 package com.lastminute.core.managers;
 
+import com.lastminute.core.entity.DayPriceModificationResult;
 import com.lastminute.core.managers.DayMultiplierFlightPriceModifier;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,9 +30,11 @@ public class DayMultiplierFlightPriceModifierTest {
         //Given
         int days = 3;
         //When
-        Double result = modifier.modifyPrice(1.0,days);
+        DayPriceModificationResult result = modifier.modifyPrice(2.0,days);
         //Then
-        assertEquals(result,Double.valueOf(1.2));
+        assertEquals(Double.valueOf(result.getResult()),Double.valueOf(2.4));
+        assertEquals(Double.valueOf(result.getModifier()),Double.valueOf(1.2));
+
     }
 
     @Test
@@ -39,9 +42,11 @@ public class DayMultiplierFlightPriceModifierTest {
         //Given
         int days = 15;
         //When
-        Double result = modifier.modifyPrice(1.0,days);
+        DayPriceModificationResult result = modifier.modifyPrice(2.0,days);
         //Then
-        assertEquals(result,Double.valueOf(1.2));
+        assertEquals(Double.valueOf(result.getResult()),Double.valueOf(2.4));
+        assertEquals(Double.valueOf(result.getModifier()),Double.valueOf(1.2));
+
     }
 
     @Test
@@ -49,9 +54,10 @@ public class DayMultiplierFlightPriceModifierTest {
         //Given
         int days = 16;
         //When
-        Double result = modifier.modifyPrice(1.0,days);
+        DayPriceModificationResult result = modifier.modifyPrice(2.0,days);
         //Then
-        assertEquals(result,Double.valueOf(1.0));
+        assertEquals(Double.valueOf(result.getResult()),Double.valueOf(2.0));
+        assertEquals(Double.valueOf(result.getModifier()),Double.valueOf(1.0));
     }
 
     @Test
@@ -59,9 +65,10 @@ public class DayMultiplierFlightPriceModifierTest {
         //Given
         int days = 30;
         //When
-        Double result = modifier.modifyPrice(1.0,days);
+        DayPriceModificationResult result = modifier.modifyPrice(2.0,days);
         //Then
-        assertEquals(result,Double.valueOf(1.0));
+        assertEquals(Double.valueOf(result.getResult()),Double.valueOf(2.0));
+        assertEquals(Double.valueOf(result.getModifier()),Double.valueOf(1.0));
     }
 
     @Test
@@ -69,9 +76,10 @@ public class DayMultiplierFlightPriceModifierTest {
         //Given
         int days = 2;
         //When
-        Double result = modifier.modifyPrice(1.0,days);
+        DayPriceModificationResult result = modifier.modifyPrice(2.0,days);
         //Then
-        assertEquals(result,Double.valueOf(1.5));
+        assertEquals(Double.valueOf(result.getResult()),Double.valueOf(3));
+        assertEquals(Double.valueOf(result.getModifier()),Double.valueOf(1.5));
     }
 
     @Test
@@ -79,18 +87,20 @@ public class DayMultiplierFlightPriceModifierTest {
         //Given
         int days = 10;
         //When
-        Double result = modifier.modifyPrice(1.0,days);
+        DayPriceModificationResult result = modifier.modifyPrice(2.0,days);
         //Then
-        assertEquals(result,Double.valueOf(1.2));
+        assertEquals(Double.valueOf(result.getResult()),Double.valueOf(2.4));
+        assertEquals(Double.valueOf(result.getModifier()),Double.valueOf(1.2));
     }
     @Test
     public void modifyForLessthan30Days() {
         //Given
         int days = 25;
         //When
-        Double result = modifier.modifyPrice(1.0,days);
+        DayPriceModificationResult result = modifier.modifyPrice(2.0,days);
         //Then
-        assertEquals(result,Double.valueOf(1.0));
+        assertEquals(Double.valueOf(result.getResult()),Double.valueOf(2.0));
+        assertEquals(Double.valueOf(result.getModifier()),Double.valueOf(1.0));
     }
 
     @Test
@@ -98,9 +108,10 @@ public class DayMultiplierFlightPriceModifierTest {
         //Given
         int days = 31;
         //When
-        Double result = modifier.modifyPrice(1.0,days);
+        DayPriceModificationResult result = modifier.modifyPrice(2.0,days);
         //Then
-        assertEquals(result,Double.valueOf(0.8));
+        assertEquals(Double.valueOf(result.getResult()),Double.valueOf(1.6));
+        assertEquals(Double.valueOf(result.getModifier()),Double.valueOf(0.8));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -108,7 +119,7 @@ public class DayMultiplierFlightPriceModifierTest {
         //Given
         int days = -1;
         //When
-        Double result = modifier.modifyPrice(1.0,days);
+        DayPriceModificationResult result = modifier.modifyPrice(2.0,days);
 
     }
 

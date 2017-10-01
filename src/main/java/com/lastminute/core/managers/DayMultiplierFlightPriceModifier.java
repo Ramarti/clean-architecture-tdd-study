@@ -1,5 +1,6 @@
 package com.lastminute.core.managers;
 
+import com.lastminute.core.entity.DayPriceModificationResult;
 import com.lastminute.core.usecase.searchflight.DayPriceModifier;
 
 public class DayMultiplierFlightPriceModifier implements DayPriceModifier {
@@ -13,18 +14,20 @@ public class DayMultiplierFlightPriceModifier implements DayPriceModifier {
          */
 
     @Override
-    public double modifyPrice(double rawPrice, int days) {
+    public DayPriceModificationResult modifyPrice(double rawPrice, int days) {
+        double modifier = 1;
         if (days < 0) {
             throw new IllegalArgumentException("days should be positive");
         }
         if (days <= 2) {
-            return  rawPrice * 1.5;
+            modifier = 1.5;
         } else if (days >= 3 && days <= 15) {
-            return  rawPrice * 1.2;
+            modifier = 1.2;
         } else if (days >= 16 && days <= 30) {
-            return rawPrice;
+            modifier = 1.0;
         } else {
-            return  rawPrice * 0.8;
+            modifier = 0.8;
         }
+        return new DayPriceModificationResult(rawPrice * modifier,modifier);
     }
 }

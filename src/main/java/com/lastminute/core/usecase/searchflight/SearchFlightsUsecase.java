@@ -1,6 +1,7 @@
 package com.lastminute.core.usecase.searchflight;
 
 import com.lastminute.Context;
+import com.lastminute.core.entity.DayPriceModificationResult;
 import com.lastminute.core.entity.FlightResult;
 import com.lastminute.core.entity.FlightRoute;
 
@@ -27,9 +28,11 @@ public class SearchFlightsUsecase implements  SearchFlightsInputBoundary {
         for ( FlightRoute route : routes) {
             Double price = context.flightPriceProvider.getPriceForFlight(route.getCode());
             if (price != null) {
-                price = dayPriceModifier.modifyPrice(price,request.getDaysUntilDeparture());
-                price = passengerPriceModifier.modifyPrice(price,request.getPassengerNumber());
-                results.add(new FlightResult(route.getCode(), price, context.defaultCurrency));
+                FlightResult.Builder resultBuilder = new FlightResult.Builder(route.getCode(),price);
+                resultBuilder = modifyDays(resultBuilder,request);
+                resultBuilder = modifyPriceByPassengers(resultBuilder,request);
+                resultBuilder = resultBuilder.currency(context.defaultCurrency);
+                results.add(resultBuilder.build());
 
             } else {
                 //TODO notify missing price...is this an error? should trigger another search? just don't show the flight?
@@ -37,6 +40,21 @@ public class SearchFlightsUsecase implements  SearchFlightsInputBoundary {
         }
         presenter.present(new SearchFlightResponse(results));
     }
+
+    private FlightResult.Builder modifyPriceByPassengers(FlightResult.Builder builder,SearchFlightRequest request) {
+        double afterPassengerPrice = passengerPriceModifier.modifyPrice(builder.getCurrentPrice().get(),request.getPassengerNumber());
+        return  builder.passengerModifierApplied(afterPassengerPrice);
+    }
+
+    private FlightResult.Builder modifyDays(FlightResult.Builder builder, SearchFlightRequest request) {
+        DayPriceModificationResult dayPriceResult = dayPriceModifier
+                .modifyPrice(
+                        builder.getOriginalPrice().get(),
+                        request.getDaysUntilDeparture()
+                );
+        return builder.dayModifierApplied(dayPriceResult.getModifier(),dayPriceResult.getResult());
+    }
+
 
 
 

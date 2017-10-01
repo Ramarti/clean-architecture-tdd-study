@@ -7,6 +7,7 @@ import java.util.List;
 public class SearchFlightResponse {
 
     private List<FlightResult> results;
+    private SearchFlightRequest request;
 
     public SearchFlightResponse(List<FlightResult> results) {
         this.results = results;
