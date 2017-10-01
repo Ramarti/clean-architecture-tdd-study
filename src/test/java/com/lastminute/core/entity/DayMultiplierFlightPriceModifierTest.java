@@ -24,13 +24,53 @@ public class DayMultiplierFlightPriceModifierTest {
      */
 
     @Test
+    public void modifyFor3Days() {
+        //Given
+        PriceParameters parameters = new PriceParameters(3);
+        //When
+        Double result = modifier.modify(1.0,parameters);
+        //Then
+        assertEquals(result,Double.valueOf(1.2));
+    }
+
+    @Test
+    public void modifyFor15Days() {
+        //Given
+        PriceParameters parameters = new PriceParameters(3);
+        //When
+        Double result = modifier.modify(1.0,parameters);
+        //Then
+        assertEquals(result,Double.valueOf(1.2));
+    }
+
+    @Test
+    public void modifyFor16Days() {
+        //Given
+        PriceParameters parameters = new PriceParameters(16);
+        //When
+        Double result = modifier.modify(1.0,parameters);
+        //Then
+        assertEquals(result,Double.valueOf(1.0));
+    }
+
+    @Test
+    public void modifyFor30Days() {
+        //Given
+        PriceParameters parameters = new PriceParameters(30);
+        //When
+        Double result = modifier.modify(1.0,parameters);
+        //Then
+        assertEquals(result,Double.valueOf(1.0));
+    }
+
+    @Test
     public void modifyForLessThan3Days() {
         //Given
         PriceParameters parameters = new PriceParameters(2);
         //When
         Double result = modifier.modify(1.0,parameters);
         //Then
-        assertEquals(result,new Double(1.5));
+        assertEquals(result,Double.valueOf(1.5));
     }
 
     @Test
@@ -40,7 +80,7 @@ public class DayMultiplierFlightPriceModifierTest {
         //When
         Double result = modifier.modify(1.0,parameters);
         //Then
-        assertEquals(result,new Double(1.2));
+        assertEquals(result,Double.valueOf(1.2));
     }
     @Test
     public void modifyForLessthan30Days() {
@@ -49,17 +89,17 @@ public class DayMultiplierFlightPriceModifierTest {
         //When
         Double result = modifier.modify(1.0,parameters);
         //Then
-        assertEquals(result,new Double(1));
+        assertEquals(result,Double.valueOf(1.0));
     }
 
     @Test
     public  void modifyForMoreThan30Days() {
         //Given
-        PriceParameters parameters = new PriceParameters(35);
+        PriceParameters parameters = new PriceParameters(31);
         //When
         Double result = modifier.modify(1.0,parameters);
         //Then
-        assertEquals(result,new Double(0.8));
+        assertEquals(result,Double.valueOf(0.8));
     }
 
     @Test(expected = IllegalArgumentException.class)
