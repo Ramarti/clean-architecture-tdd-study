@@ -12,7 +12,7 @@ public class FlightResult {
 
     private String currency;
 
-    public FlightResult(Builder builder) {
+    private FlightResult(Builder builder) {
         this.code = builder.getCode().get();
         this.originalPrice = builder.getOriginalPrice().get();
         this.finalPrice = builder.getCurrentPrice().get();

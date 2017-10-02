@@ -53,7 +53,7 @@ public class SearchFlightsPresenter implements SearchFlightsOutputBoundary {
     //****** Results
 
     private String getResponseSummaryWithResults(SearchFlightResponse response) {
-        return String.join(" ",
+        return String.join("\n",
                 getRequestSummaryWithResults(response.getRequest()),
                 "",
                 getFlightsSummary(response.getResults(),response.getRequest().getPassengerNumber())
