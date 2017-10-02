@@ -4,9 +4,13 @@ import com.lastminute.Context;
 import com.lastminute.TestSetup;
 import com.lastminute.core.entity.DayPriceModificationResult;
 import com.lastminute.core.entity.FlightRoute;
+import com.lastminute.core.entity.SearchFlightDataProviders;
+import com.lastminute.core.entity.SearchFlightPriceModifiers;
 import com.lastminute.doubles.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -18,6 +22,7 @@ public class SearchFlightsUsecaseTest {
     private FlightPriceProviderMock mockPriceProvider;
     private MockDayPriceModifier mockDayPriceModifier;
     private MockPassengersPriceModifier mockPassengersPriceModifier;
+    private MockCsvRecordReader mockReader;
 
     @Before
     public void setup() {
@@ -25,9 +30,14 @@ public class SearchFlightsUsecaseTest {
         mockRoutesProvider = TestSetup.getMockRoutesProvider();
         mockPriceProvider = TestSetup.getMockPriceProvider();
         mockDayPriceModifier = new MockDayPriceModifier();
-
         mockPassengersPriceModifier = new MockPassengersPriceModifier();
-        flightSearcher = new SearchFlightsUsecase(Context.getInstance(),mockDayPriceModifier,mockPassengersPriceModifier);
+        SearchFlightPriceModifiers modifiers = new SearchFlightPriceModifiers(
+                mockDayPriceModifier,
+                mockPassengersPriceModifier
+        );
+        mockReader = new MockCsvRecordReader();
+        SearchFlightDataProviders providers = new SearchFlightDataProviders(mockReader,mockReader);
+        flightSearcher = new SearchFlightsUsecase(Context.getInstance(),modifiers,providers);
     }
 
 
@@ -35,7 +45,7 @@ public class SearchFlightsUsecaseTest {
     public void searchFlightsWiring() {
         //Given
         mockRoutesProvider.routes.add(new FlightRoute("MORDOR","LEGANES","4"));
-        mockPriceProvider.priceFound = 3.0;
+        mockPriceProvider.priceFound = Optional.of(3.0);
         mockDayPriceModifier.priceToReturn = new DayPriceModificationResult(2,2);
         SearchFlightRequest request = new SearchFlightRequest("MORDOR","LEGANES",1,2);
         SearchFlightsOutputBoundarySpy spy = new SearchFlightsOutputBoundarySpy();
@@ -55,7 +65,7 @@ public class SearchFlightsUsecaseTest {
     public void searchFlightsResponseFull() {
         //Given
         mockRoutesProvider.routes.add(new FlightRoute("MORDOR","LEGANES","4"));
-        mockPriceProvider.priceFound = 3.0;
+        mockPriceProvider.priceFound = Optional.of(Double.valueOf(3.0));
         mockDayPriceModifier.priceToReturn = new DayPriceModificationResult(2,2);
         SearchFlightRequest request = new SearchFlightRequest("MORDOR","LEGANES",1,2);
         SearchFlightsOutputBoundarySpy spy = new SearchFlightsOutputBoundarySpy();
@@ -85,7 +95,7 @@ public class SearchFlightsUsecaseTest {
     public void searchFlightPriceNotFound() {
         //Given
         mockRoutesProvider.routes.add(new FlightRoute("MORDOR","LEGANES","U"));
-        mockPriceProvider.priceFound = null;
+        mockPriceProvider.priceFound = Optional.empty();
         SearchFlightRequest request = new SearchFlightRequest("","",1,1);
         SearchFlightsOutputBoundarySpy spy = new SearchFlightsOutputBoundarySpy();
 
@@ -100,7 +110,7 @@ public class SearchFlightsUsecaseTest {
     public void searchFlightPriceFound() {
         //Given
         mockRoutesProvider.routes.add(new FlightRoute("MORDOR","LEGANES","U"));
-        mockPriceProvider.priceFound = Double.valueOf(2);
+        mockPriceProvider.priceFound = Optional.of(Double.valueOf(2));
         mockDayPriceModifier.priceToReturn = new DayPriceModificationResult(2,2);
         SearchFlightRequest request = new SearchFlightRequest("MORDOR","LEGANES",1,1);
         SearchFlightsOutputBoundarySpy spy = new SearchFlightsOutputBoundarySpy();
@@ -118,7 +128,7 @@ public class SearchFlightsUsecaseTest {
         mockRoutesProvider.routes.add(new FlightRoute("ORI","DEST","A2"));
         mockRoutesProvider.routes.add(new FlightRoute("ORI","DEST","A3"));
         mockDayPriceModifier.priceToReturn = new DayPriceModificationResult(2,2);
-        mockPriceProvider.priceFound = Double.valueOf(2);
+        mockPriceProvider.priceFound = Optional.of(Double.valueOf(2));
         SearchFlightRequest request = new SearchFlightRequest("ORI","DEST",1,1);
         SearchFlightsOutputBoundarySpy spy = new SearchFlightsOutputBoundarySpy();
 

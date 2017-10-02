@@ -1,6 +1,7 @@
 package com.lastminute.doubles;
 
 import com.lastminute.core.entity.FlightRoute;
+import com.lastminute.dataproviders.RecordReaderAdapter;
 import com.lastminute.dataproviders.flightroutes.FlightRoutesProvider;
 
 import java.util.ArrayList;
@@ -16,9 +17,11 @@ public class FlightRouteProviderMock implements FlightRoutesProvider {
         return getRoutesCalled;
     }
 
+
     @Override
-    public List<FlightRoute> getRoutes(String origin, String destination) {
+    public List<FlightRoute> getRoutes(String origin, String destination, RecordReaderAdapter recordReader) {
         getRoutesCalled = true;
+
         return routes;
     }
 }

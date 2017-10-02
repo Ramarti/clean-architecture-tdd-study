@@ -1,12 +1,12 @@
 package com.lastminute.core.usecase.searchflight;
 
 import com.lastminute.Context;
-import com.lastminute.core.entity.DayPriceModificationResult;
-import com.lastminute.core.entity.FlightResult;
-import com.lastminute.core.entity.FlightRoute;
+import com.lastminute.core.entity.*;
+import com.lastminute.dataproviders.RecordReaderAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class SearchFlightsUsecase implements  SearchFlightsInputBoundary {
 
@@ -14,21 +14,30 @@ public class SearchFlightsUsecase implements  SearchFlightsInputBoundary {
     private Context context;
     private DayPriceModifier dayPriceModifier;
     private PassengerPriceModifier passengerPriceModifier;
+    private RecordReaderAdapter routesAdapter;
+    private RecordReaderAdapter pricesAdapter;
 
-    public SearchFlightsUsecase(Context context, DayPriceModifier dayPriceModifier, PassengerPriceModifier passengerPriceModifier) {
+    public SearchFlightsUsecase(Context context,
+                                SearchFlightPriceModifiers modifiers,
+                                SearchFlightDataProviders providers
+                                ) {
         this.context = context;
-        this.dayPriceModifier = dayPriceModifier;
-        this.passengerPriceModifier = passengerPriceModifier;
+        this.dayPriceModifier = modifiers.getDayPriceModifier();
+        this.passengerPriceModifier = modifiers.getPassengerPriceModifier();
+        this.routesAdapter = providers.getRoutesReader();
+        this.pricesAdapter = providers.getPricesReader();
     }
 
     @Override
     public void searchFlights(SearchFlightRequest request, SearchFlightsOutputBoundary presenter) {
-        List<FlightRoute> routes = context.flightRoutesProvider.getRoutes(request.getOrigin(),request.getDestination());
+        //Getting routes for trip
+        List<FlightRoute> routes = context.flightRoutesProvider.getRoutes(request.getOrigin(),request.getDestination(),routesAdapter);
+
         List<FlightResult> results = new ArrayList< FlightResult>();
         for ( FlightRoute route : routes) {
-            Double price = context.flightPriceProvider.getPriceForFlight(route.getCode());
-            if (price != null) {
-                FlightResult.Builder resultBuilder = new FlightResult.Builder(route.getCode(),price);
+            Optional<Double> price = context.flightPriceProvider.getPriceForFlight(route.getCode(),pricesAdapter);
+            if (price.isPresent()) {
+                FlightResult.Builder resultBuilder = new FlightResult.Builder(route.getCode(),price.get());
                 resultBuilder = modifyDays(resultBuilder,request);
                 resultBuilder = modifyPriceByPassengers(resultBuilder,request);
                 resultBuilder = resultBuilder.currency(context.defaultCurrency);

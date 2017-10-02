@@ -23,7 +23,7 @@ Your goal is to implement a simple flight search.
 We ask you to solve it using the **Java** programming language. You are only allowed to use test libraries (JUnit, TestNG, Hamcrest, ...) and nothing else.
 The project skeleton is already provided, with Maven and Gradle configured as build tools.
 
-Flight routes and base prices are given in the CSV format. You can find them in `src/main/resources` directory. A rudimentary CSV client for reading the data (`com.lastminute.CsvFiles`) with simple tests is provided by us. Feel free to use or implement your own data access mechanism.
+Flight routes and base prices are given in the CSV format. You can find them in `src/main/resources` directory. A rudimentary CSV client for reading the data (`com.lastminute.utils.CsvFiles`) with simple tests is provided by us. Feel free to use or implement your own data access mechanism.
 
 Remember that **automated and self-checking tests** are mandatory. You should provide sufficient evidence that your solution is complete by, at a minimum, indicating that it works correctly against the supplied test data.
 

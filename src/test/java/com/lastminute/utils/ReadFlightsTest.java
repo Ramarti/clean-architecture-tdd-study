@@ -1,10 +1,10 @@
-package com.lastminute;
+package com.lastminute.utils;
 
 import java.util.List;
 
 import org.junit.Test;
 
-import static com.lastminute.CsvFiles.readAllRecords;
+import static com.lastminute.utils.CsvFiles.readAllRecords;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
