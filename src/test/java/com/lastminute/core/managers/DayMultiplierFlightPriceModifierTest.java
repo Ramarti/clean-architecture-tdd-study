@@ -7,6 +7,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Plenty of test here, because money.
+ */
 public class DayMultiplierFlightPriceModifierTest {
 
     DayMultiplierFlightPriceModifier modifier;

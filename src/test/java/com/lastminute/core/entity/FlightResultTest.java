@@ -6,6 +6,9 @@ import static org.junit.Assert.*;
 
 public class FlightResultTest {
 
+    /**
+     * Testing the last price correspond to the last modifier
+     */
     @Test
     public void testFullyBuiltFully() {
         //Given
@@ -25,6 +28,9 @@ public class FlightResultTest {
 
     }
 
+    /**
+     * Testing the last price correspond to the last modifier
+     */
     @Test
     public void testFullyBuiltFullyDifferentModifierOrder() {
         //Given

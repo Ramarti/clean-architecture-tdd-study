@@ -68,10 +68,14 @@ public class FlightRoutesProviderImplTest {
 
     @Test
     public void getRouteFromList() throws Exception {
+        //Given
 
         List<String> row = Arrays.asList("OR","DEST","CODE");
+
+        //When
         FlightRoute route = FlightRoutesProviderImpl.fromRow(row);
 
+        //Then
         assertTrue(route.getOrigin().equals("OR"));
         assertTrue(route.getDestination().equals("DEST"));
         assertTrue(route.getCode().equals("CODE"));
@@ -81,18 +85,19 @@ public class FlightRoutesProviderImplTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void getRouteIncompleteList() throws Exception {
+        //Given
         List<String> row = Arrays.asList("OR","DEST");
+        //When
         FlightRoute route = FlightRoutesProviderImpl.fromRow(row);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void getRouteTooLongList() throws Exception {
+        //Given
         List<String> row = Arrays.asList("OR","DEST","CODE","THING");
+        //when
         FlightRoute route = FlightRoutesProviderImpl.fromRow(row);
     }
 
 
-    private String fullPathTo(String fileName) {
-        return getClass().getClassLoader().getResource(fileName).getPath();
-    }
 }
