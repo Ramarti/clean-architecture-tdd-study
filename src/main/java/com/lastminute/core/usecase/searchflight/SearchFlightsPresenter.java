@@ -53,11 +53,13 @@ public class SearchFlightsPresenter implements SearchFlightsOutputBoundary {
     //****** Results
 
     private String getResponseSummaryWithResults(SearchFlightResponse response) {
-        return String.join("\n",
+        String result = String.join("\n",
                 getRequestSummaryWithResults(response.getRequest()),
                 "",
                 getFlightsSummary(response.getResults(),response.getRequest().getPassengerNumber())
         );
+
+        return result.replaceAll("\\n*$","");
     }
 
     private String getRequestSummaryWithResults(SearchFlightRequest request) {
@@ -105,32 +107,41 @@ public class SearchFlightsPresenter implements SearchFlightsOutputBoundary {
         }
 
         StringBuilder builder = new StringBuilder("  flights:");
+        builder.append("\n");
+        StringBuilder flightsBuilder = new StringBuilder();
         for (FlightResult result : results) {
-            builder.append("\n");
-            builder.append(String.join(" ",
-                    "    *",
-                    result.getCode()+",",
-                    formatPriceValue(result.getFinalPrice()),
-                    result.getCurrency()
-                    ));
-            if (hasDayModifier(result) && passengers > 1) {
-                builder.append(String.join(" ",
-                        "",
-                        getPassengerModifierSummary(passengers),
-                        getDayModifier(result.getDayModifierApplied()),
-                        getOfOriginalPrice(result.getOriginalPrice())+")"
-
-                        ));
-            } else if (hasDayModifier(result) && passengers == 1) {
-                builder.append(String.join(" ",
-                        "",
-                        getDayModifier(result.getDayModifierApplied()),
-                        getOfOriginalPrice(result.getOriginalPrice())
-                ));
-            }
+            addFlightLine(passengers, flightsBuilder, result);
+            flightsBuilder.append("\n");
         }
-        return builder.toString();
+        flightsBuilder.deleteCharAt(flightsBuilder.length()-1);
+        builder.append(flightsBuilder.toString());
+       return builder.toString();
     }
+
+    private void addFlightLine(int passengers, StringBuilder flightsBuilder, FlightResult result) {
+        flightsBuilder.append(String.join(" ",
+                "    *",
+                result.getCode()+",",
+                formatPriceValue(result.getFinalPrice()),
+                result.getCurrency()
+                ));
+        if (hasDayModifier(result) && passengers > 1) {
+            flightsBuilder.append(String.join(" ",
+                    "",
+                    getPassengerModifierSummary(passengers),
+                    getDayModifier(result.getDayModifierApplied()),
+                    getOfOriginalPrice(result.getOriginalPrice())+")"
+
+                    ));
+        } else if (hasDayModifier(result) && passengers == 1) {
+            flightsBuilder.append(String.join(" ",
+                    "",
+                    getDayModifier(result.getDayModifierApplied()),
+                    getOfOriginalPrice(result.getOriginalPrice())
+            ));
+        }
+    }
+
 
     private String formatPriceValue(double value) {
         DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.getDefault());
@@ -158,7 +169,7 @@ public class SearchFlightsPresenter implements SearchFlightsOutputBoundary {
     }
 
     private boolean hasDayModifier(FlightResult result) {
-        return !Double.valueOf(result.getDayModifierApplied()).equals(1.0);
+        return Double.valueOf(result.getDayModifierApplied()) > 1.0;
     }
 
 

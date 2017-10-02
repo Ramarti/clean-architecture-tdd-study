@@ -1,22 +1,23 @@
 package com.lastminute.core.usecase.searchflight;
 
 import com.lastminute.core.entity.FlightResult;
+import com.lastminute.preparedOutputs.SearchViewOutputs;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
 
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.assertEquals;
+
 
 public class SearchFlightsPresenterTest {
 
     SearchFlightsPresenter presenter;
-
+    SearchViewOutputs outputs;
     @Before
     public void setUp() throws Exception {
+        outputs = new SearchViewOutputs();
         presenter = new SearchFlightsPresenter();
     }
     /*
@@ -77,15 +78,9 @@ public class SearchFlightsPresenterTest {
 
         //Then
         SearchFlightViewModel model = presenter.getViewModel();
-        String desired = String.join("\n",
-                "* 3 passengers, 15 days to the departure date, flying LHR -> IST",
-                "",
-                "  flights:",
-                "    * TK8891, 900 € (3 * (120% of 250))",
-                "    * LH1085, 532.8 € (3 * (120% of 148))"
-        );
+        String desired = outputs.get3Passenger15daysLHRtoIST();
 
-        assertEquals(model.getPrompt(),desired);
+        assertEquals(desired,model.getPrompt());
 
     }
 
