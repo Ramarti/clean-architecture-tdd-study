@@ -2,6 +2,9 @@ package com.lastminute.core.entity;
 
 import com.lastminute.dataproviders.RecordReaderAdapter;
 
+/**
+ * Grouping for useCase constructor
+ */
 public class SearchFlightDataProviders {
     private RecordReaderAdapter pricesReader;
     private RecordReaderAdapter routesReder;

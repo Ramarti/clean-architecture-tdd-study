@@ -4,6 +4,10 @@ import com.lastminute.core.entity.FlightResult;
 
 import java.util.List;
 
+/**
+ * Results of the SearchFlightUseCase
+ * Includes request that triggered it
+ */
 public class SearchFlightResponse {
 
     private List<FlightResult> results;

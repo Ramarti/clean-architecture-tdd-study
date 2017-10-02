@@ -3,6 +3,9 @@ package com.lastminute.core.entity;
 import java.util.Arrays;
 import java.util.Optional;
 
+/**
+ * Individual result of a search -> price modifications
+ */
 public class FlightResult {
 
     private String code;
@@ -40,17 +43,21 @@ public class FlightResult {
         return dayModifierApplied;
     }
 
+    /**
+     * Kind of a Step Builder
+     */
     public static class Builder {
-
-
-
-
         private Optional<String> code;
         private Optional<Double> originalPrice;
         private Optional<Double> currentPrice;
         private Optional<Double> dayModifierApplied;
         private Optional<String> currency;
 
+        /**
+         * Constructor with first required params
+         * @param code flightCode
+         * @param originalPrice
+         */
         public Builder(String code, double originalPrice) {
             this.code = Optional.of(code);
             this.originalPrice = Optional.of(originalPrice);
@@ -59,6 +66,10 @@ public class FlightResult {
             this.currency = Optional.empty();
         }
 
+        /**
+         * Will check if everything is there, could throw IllegalStateException
+         * @return the FlightResult
+         */
         public FlightResult build() {
             checkIfBuilt();
             return new FlightResult(this);
@@ -94,17 +105,33 @@ public class FlightResult {
             return code;
         }
 
+        /**
+         * Step of price modification according to days
+         * @param modifier
+         * @param price new price
+         * @return
+         */
         public Builder dayModifierApplied(double modifier, double price){
             this.currentPrice = Optional.of(price);
             this.dayModifierApplied = Optional.of(modifier);
             return this;
         }
 
+        /**
+         * Step of price modification according to passenger number
+         * @param currentPrice
+         * @return
+         */
         public Builder passengerModifierApplied(double currentPrice) {
             this.currentPrice = Optional.of(currentPrice);
             return this;
         }
 
+        /**
+         * Currency is cosmetic at the moment
+         * @param currency symbol
+         * @return
+         */
         public Builder currency(String currency) {
             this.currency = Optional.of(currency);
             return this;

@@ -3,6 +3,9 @@ package com.lastminute.core.entity;
 import com.lastminute.core.usecase.searchflight.DayPriceModifier;
 import com.lastminute.core.usecase.searchflight.PassengerPriceModifier;
 
+/**
+ *  Grouping for useCase constructor
+ */
 public class SearchFlightPriceModifiers {
 
     private DayPriceModifier dayPriceModifier;

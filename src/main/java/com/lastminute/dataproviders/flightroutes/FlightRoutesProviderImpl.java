@@ -6,6 +6,9 @@ import com.lastminute.dataproviders.RecordReaderAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Translates the csv rows to FlightRoutes
+ */
 public class FlightRoutesProviderImpl implements FlightRoutesProvider {
 
 
@@ -20,6 +23,7 @@ public class FlightRoutesProviderImpl implements FlightRoutesProvider {
     public static Boolean isSameFlightPath(FlightRoute route, String origin, String destination) {
         return  route.getDestination().equals(destination) && route.getOrigin().equals(origin);
     }
+
 
     @Override
     public List<FlightRoute> getRoutes(String origin, String destination, RecordReaderAdapter recordReader) {

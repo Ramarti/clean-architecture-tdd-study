@@ -1,5 +1,8 @@
 package com.lastminute.core.entity;
 
+/**
+ * Model of the planes flying between 2 airports
+ */
 public class FlightRoute {
 
     private final String origin;

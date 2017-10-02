@@ -3,6 +3,9 @@ package com.lastminute.core.usecase.searchflight;
 
 import com.lastminute.core.controller.Controller;
 
+/**
+ * Implementation of a Controller for flight search
+ */
 public class SearchFlightController implements Controller<SearchFlightRequest,SearchFlightRequestException> {
 
     SearchFlightsOutputBoundary presenter;
@@ -28,6 +31,15 @@ public class SearchFlightController implements Controller<SearchFlightRequest,Se
     }
 
 
+    /**
+     * Validates user input,
+     * search flights,
+     * applies business rules to results,
+     * prepares output and
+     * tells the view to represent it
+     * @param request
+     * @throws SearchFlightRequestException if incorrect input
+     */
     @Override
     public void handleRequest(SearchFlightRequest request) throws SearchFlightRequestException {
         request.validate();

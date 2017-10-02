@@ -4,7 +4,9 @@ import com.lastminute.dataproviders.RecordReaderFactory;
 import com.lastminute.dataproviders.flightprices.FlightPriceProvider;
 import com.lastminute.dataproviders.flightroutes.FlightRoutesProvider;
 
-
+/**
+ * Thread safe singleton that helps with some of the dependency injection
+ */
 public class Context {
 
     public FlightPriceProvider flightPriceProvider;

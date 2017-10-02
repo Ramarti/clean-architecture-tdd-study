@@ -5,6 +5,9 @@ import com.lastminute.core.usecase.searchflight.SearchFlightViewModel;
 
 import java.io.PrintStream;
 
+/**
+ * View implementation. I used a stream so we could reuse this for tests or a CLI app deppending on what we want
+ */
 public class SearchFlightPrintStreamView implements SearchFlightView {
 
     private PrintStream stream;

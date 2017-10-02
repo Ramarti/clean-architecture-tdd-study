@@ -2,6 +2,9 @@ package com.lastminute.core.managers;
 
 import com.lastminute.core.usecase.searchflight.PassengerPriceModifier;
 
+/**
+ * Passenger number business rule. Just a multiplication.
+ */
 public class MultiplePassengerFlightPriceModifier implements PassengerPriceModifier{
 
     @Override

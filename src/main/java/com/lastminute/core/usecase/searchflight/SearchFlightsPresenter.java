@@ -7,6 +7,10 @@ import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Constructs the (in this case) string representation needed by the defined view (a prompt)
+ *
+ */
 public class SearchFlightsPresenter implements SearchFlightsOutputBoundary {
 
     SearchFlightViewModel viewModel;
@@ -16,6 +20,10 @@ public class SearchFlightsPresenter implements SearchFlightsOutputBoundary {
         return viewModel;
     }
 
+    /**
+     * Constructs the (in this case) string representation needed by the defined view (a prompt) with use case output
+     * @param response Use case output
+     */
     @Override
     public void present(SearchFlightResponse response) {
         String requestSummary;

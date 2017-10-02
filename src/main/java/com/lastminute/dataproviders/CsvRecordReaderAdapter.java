@@ -4,6 +4,9 @@ import com.lastminute.utils.CsvFiles;
 
 import java.util.List;
 
+/**
+ * Wrapper of the actual CsvReader
+ */
 public class CsvRecordReaderAdapter implements RecordReaderAdapter {
 
     String path;
