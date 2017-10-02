@@ -38,7 +38,7 @@ public class SearchFlightsUsecase implements  SearchFlightsInputBoundary {
                 //TODO notify missing price...is this an error? should trigger another search? just don't show the flight?
             }
         }
-        presenter.present(new SearchFlightResponse(results));
+        presenter.present(new SearchFlightResponse(results,request));
     }
 
     private FlightResult.Builder modifyPriceByPassengers(FlightResult.Builder builder,SearchFlightRequest request) {

@@ -52,6 +52,23 @@ public class SearchFlightsUsecaseTest {
     }
 
     @Test
+    public void searchFlightsResponseFull() {
+        //Given
+        mockRoutesProvider.routes.add(new FlightRoute("MORDOR","LEGANES","4"));
+        mockPriceProvider.priceFound = 3.0;
+        mockDayPriceModifier.priceToReturn = new DayPriceModificationResult(2,2);
+        SearchFlightRequest request = new SearchFlightRequest("MORDOR","LEGANES",1,2);
+        SearchFlightsOutputBoundarySpy spy = new SearchFlightsOutputBoundarySpy();
+
+        //When
+        flightSearcher.searchFlights(request,spy);
+
+        //Then
+        assertNotNull(spy.response.getResults() );
+        assertNotNull(spy.response.getRequest() );
+    }
+
+    @Test
     public void searchFlightNoFlightsFound() {
         //Given
         SearchFlightRequest request = new SearchFlightRequest("MORDOR","LEGANES",1,1);
